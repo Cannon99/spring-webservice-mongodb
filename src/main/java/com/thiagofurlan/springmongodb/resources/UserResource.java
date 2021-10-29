@@ -1,6 +1,8 @@
 package com.thiagofurlan.springmongodb.resources;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thiagofurlan.springmongodb.domain.User;
+import com.thiagofurlan.springmongodb.dto.UserDTO;
 import com.thiagofurlan.springmongodb.services.UserService;
 
 @RestController
@@ -18,8 +21,12 @@ public class UserResource {
 	UserService service;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
+	public ResponseEntity<List<UserDTO>> findAll() {
+		Function<User, UserDTO> func = (User user) -> {
+			return new UserDTO(user);
+		};
 		List<User> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+		List<UserDTO> listDTO = list.stream().map(func).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 }
