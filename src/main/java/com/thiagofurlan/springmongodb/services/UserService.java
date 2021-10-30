@@ -19,7 +19,7 @@ public class UserService {
 		return repository.findAll();
 	}
 	
-	public User findByid(String id) {
+	public User findById(String id) {
 		User user = repository.findById(id).orElse(null);
 		
 		if (user == null) {
@@ -31,6 +31,11 @@ public class UserService {
 	
 	public User insert(User user) {
 		return repository.insert(user);
+	}
+	
+	public void deleteById(String id) {
+		findById(id);
+		repository.deleteById(id);
 	}
 	
 	public User fromDTO(UserDTO userDTO) {
