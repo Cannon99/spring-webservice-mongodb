@@ -1,5 +1,6 @@
 package com.thiagofurlan.springmongodb.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,9 @@ public class PostService {
 	
 	public List<Post> searchTitle(String text) {
 		return repository.searchTitle(text);
+	}
+	
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate) {
+		return repository.fullSearch(text, minDate, maxDate);
 	}
 }
